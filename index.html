@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Things Foundation</title>
+<meta name="description" content="All Things Foundation - a faith-based baseball discipleship ministry in Maple Shade, NJ.">
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Libre+Franklin:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --bg:#F6F2EA;
+    --surface:#FFFFFF;
+    --surface-alt:#EEE7D9;
+    --ink:#1C2430;
+    --ink-soft:#5B6270;
+    --primary:#163A5C;
+    --primary-deep:#0E2740;
+    --accent:#D89A34;
+    --accent-deep:#B87A1E;
+    --on-accent:#1C2430;
+    --stitch:#A6392E;
+    --border:#E1D6BF;
+    --shadow:rgba(28,36,48,0.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101722;
+      --surface:#182233;
+      --surface-alt:#1E2A3C;
+      --ink:#EDEAE1;
+      --ink-soft:#AEB7C4;
+      --primary:#8FBBE3;
+      --primary-deep:#B7D6F2;
+      --accent:#EFB259;
+      --accent-deep:#F4C57C;
+      --on-accent:#1C2430;
+      --stitch:#E58A7B;
+      --border:#2B3A4E;
+      --shadow:rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101722;
+    --surface:#182233;
+    --surface-alt:#1E2A3C;
+    --ink:#EDEAE1;
+    --ink-soft:#AEB7C4;
+    --primary:#8FBBE3;
+    --primary-deep:#B7D6F2;
+    --accent:#EFB259;
+    --accent-deep:#F4C57C;
+    --on-accent:#1C2430;
+    --stitch:#E58A7B;
+    --border:#2B3A4E;
+    --shadow:rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Libre Franklin", "Segoe UI", system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:"Fraunces", Georgia, "Times New Roman", serif;
+    color:var(--ink);
+    line-height:1.15;
+    text-wrap:balance;
+    margin:0 0 .5rem;
+  }
+  p{margin:0 0 1rem;}
+  a{color:inherit;}
+  .skip-link{
+    position:absolute; left:-9999px; top:0; background:var(--accent); color:var(--on-accent);
+    padding:.6rem 1rem; z-index:200; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{left:0;}
+  :focus-visible{outline:3px solid var(--accent-deep); outline-offset:2px;}
+
+  .container{max-width:1120px; margin-inline:auto; padding-inline:clamp(16px,4vw,24px);}
+  section.stack{padding-block:clamp(2.75rem,6vw,5rem);}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:.14em; font-size:.75rem; font-weight:700;
+    color:var(--accent-deep); margin:0 0 .6rem;
+  }
+  .optional{color:var(--ink-soft); font-weight:400; font-size:.82em;}
+  .req{color:var(--stitch); margin-left:.15em;}
+
+  /* stitch divider: nod to baseball seam stitching */
+  .stitch-divider{
+    height:10px; margin-block:1.75rem;
+    background-image:
+      repeating-linear-gradient(90deg, var(--stitch) 0 10px, transparent 10px 22px);
+    background-position:center; background-repeat:repeat-x; background-size:auto 2px;
+    opacity:.55;
+  }
+
+  /* header / tabs */
+  .site-header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:50;
+    background:var(--surface); border-bottom:1px solid var(--border);
+  }
+  .header-inner{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    gap:.75rem; padding-block:.85rem;
+  }
+  .brand{
+    display:inline-flex; align-items:center; gap:.55rem; background:none; border:none; cursor:pointer;
+    font-family:"Fraunces", serif; font-weight:600; font-size:1.05rem; color:var(--primary); padding:0;
+  }
+  .brand svg{flex:none;}
+  .tabs{display:flex; gap:.3rem; background:var(--surface-alt); padding:.3rem; border-radius:999px;}
+  .tab-btn{
+    border:none; background:transparent; padding:.55rem 1.05rem; border-radius:999px;
+    font-weight:600; font-size:.85rem; cursor:pointer; color:var(--ink-soft); font-family:inherit;
+  }
+  .tab-btn[aria-selected="true"]{background:var(--accent); color:var(--on-accent);}
+
+  /* buttons */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    padding:.85rem 1.7rem; border-radius:999px; font-weight:600; font-size:.95rem;
+    text-decoration:none; cursor:pointer; border:2px solid transparent; font-family:inherit;
+    transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+  }
+  .btn-primary{background:var(--accent); color:var(--on-accent); box-shadow:0 14px 28px -16px var(--shadow);}
+  .btn-primary:hover{background:var(--accent-deep); transform:translateY(-1px);}
+  .btn-outline{background:transparent; border-color:var(--border); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--primary); color:var(--primary);}
+
+  /* hero */
+  .hero{text-align:left;}
+  .hero h1{font-size:clamp(2.4rem, 5vw, 3.6rem); margin-bottom:.35rem;}
+  .hero .tagline{
+    font-family:"Fraunces", serif; font-style:italic; font-weight:500;
+    font-size:clamp(1.15rem,2.4vw,1.5rem); color:var(--primary); margin-bottom:1rem;
+  }
+  .hero .subhead{max-width:44rem; color:var(--ink-soft); font-size:1.05rem;}
+  .hero-actions{display:flex; flex-wrap:wrap; gap:.85rem; margin-block:1.5rem;}
+  .verse{
+    font-family:"Fraunces", serif; font-style:italic; font-size:1.05rem; color:var(--ink);
+    border-left:3px solid var(--stitch); padding-left:1rem; max-width:32rem;
+  }
+  .verse span{display:block; font-style:normal; font-size:.8rem; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-soft); margin-top:.35rem;}
+
+  /* mission & vision */
+  .mission-vision{
+    display:grid; grid-template-columns:1fr auto 1fr; gap:2rem; align-items:start;
+  }
+  .mv-card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:2rem;}
+  .mv-card p{
+    font-family:"Fraunces", serif; font-size:1.2rem; font-style:italic; color:var(--ink); margin:0;
+  }
+  .mv-divider{width:1px; background:var(--border); align-self:stretch;}
+  @media (max-width:760px){
+    .mission-vision{grid-template-columns:1fr;}
+    .mv-divider{display:none;}
+  }
+
+  /* core values */
+  .values-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:1.25rem; margin-top:2rem;
+  }
+  .value-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.6rem 1.4rem;
+  }
+  .value-mark{
+    display:inline-flex; align-items:center; justify-content:center; width:2.4rem; height:2.4rem;
+    border-radius:50%; border:2px solid var(--accent); color:var(--primary);
+    font-family:"Fraunces", serif; font-style:italic; font-weight:600; font-size:1.15rem;
+    margin-bottom:.9rem;
+  }
+  .value-card h3{font-size:1.15rem; margin-bottom:.3rem;}
+  .value-card p{color:var(--ink-soft); font-size:.95rem; margin:0;}
+
+  /* events */
+  .event-card{
+    display:flex; flex-wrap:wrap; background:var(--surface); border:1px solid var(--border);
+    border-radius:16px; overflow:hidden; box-shadow:0 20px 44px -30px var(--shadow); margin-top:2rem;
+  }
+  .event-main{flex:1 1 320px; padding:2rem;}
+  .event-stub{
+    flex:1 1 260px; padding:2rem; background:var(--surface-alt);
+    border-left:2px dashed var(--border);
+    display:flex; flex-direction:column; gap:1.4rem; justify-content:space-between;
+  }
+  @media (max-width:680px){
+    .event-stub{border-left:none; border-top:2px dashed var(--border);}
+  }
+  .event-eyebrow{color:var(--accent-deep); text-transform:uppercase; letter-spacing:.1em; font-size:.75rem; font-weight:700; margin-bottom:.5rem;}
+  .event-facts{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem 1.25rem; margin:0;}
+  .event-facts dt{font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); margin:0 0 .2rem;}
+  .event-facts dd{
+    margin:0; font-family:"Space Mono", monospace; font-weight:700; font-size:1.05rem;
+    color:var(--primary); font-variant-numeric:tabular-nums;
+  }
+
+  /* closing cta */
+  .closing-cta{
+    background:var(--primary); color:#F6F2EA; border-radius:20px; padding:clamp(2.2rem,5vw,3.5rem);
+    text-align:center; margin-block:1rem;
+  }
+  .closing-cta h2{color:#FFFFFF;}
+  .closing-cta p{color:#D9E3EC; max-width:38rem; margin-inline:auto;}
+  .closing-cta .btn-primary{margin-top:.5rem;}
+
+  /* footer */
+  .site-footer{
+    text-align:center; padding-block:2.5rem; color:var(--ink-soft); font-size:.85rem;
+    border-top:1px solid var(--border);
+  }
+
+  /* connect view */
+  .connect-wrap{max-width:640px; margin-inline:auto;}
+  .connect-head h1{font-size:clamp(2rem,4vw,2.6rem);}
+  .connect-head .subhead{color:var(--ink-soft); max-width:34rem;}
+
+  #airtableFormEmbed:empty{display:none;}
+
+  form#connectionCardForm{
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    padding:clamp(1.5rem,4vw,2.5rem); display:flex; flex-direction:column; gap:1.4rem; margin-top:1.5rem;
+  }
+  .field{display:flex; flex-direction:column; gap:.4rem;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem;}
+  @media (max-width:520px){.field-row{grid-template-columns:1fr;}}
+  label, legend{font-weight:600; font-size:.92rem;}
+  input[type="text"], input[type="email"], input[type="tel"], textarea{
+    font:inherit; padding:.75rem .9rem; border:1.5px solid var(--border); border-radius:10px;
+    background:var(--bg); color:var(--ink); width:100%;
+  }
+  input:focus, textarea:focus{border-color:var(--primary);}
+  textarea{resize:vertical; min-height:6.5rem;}
+  fieldset.reason-field{border:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.6rem;}
+  .reason-options{display:flex; flex-wrap:wrap; gap:.6rem;}
+  .reason-chip{
+    display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem;
+    border:1.5px solid var(--border); border-radius:999px; font-weight:500; font-size:.88rem;
+    cursor:pointer; background:var(--bg);
+  }
+  .reason-chip:has(input:checked){border-color:var(--accent); background:var(--surface-alt); color:var(--ink);}
+  .reason-chip input{accent-color:var(--accent-deep);}
+  .btn-submit{align-self:flex-start;}
+  .confirmation{
+    margin-top:1.5rem; background:var(--surface-alt); border:1px solid var(--border);
+    border-radius:14px; padding:1.5rem; text-align:center;
+  }
+  .confirmation p{
+    margin:0; font-family:"Fraunces", serif; font-size:1.2rem; font-style:italic; color:var(--primary);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <button class="brand" type="button" data-switch="home" aria-label="All Things Foundation, go to Home">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <circle cx="13" cy="13" r="11" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M4 8.5C8 11 8 15 4 17.5" stroke="var(--stitch)" stroke-width="1.4" fill="none"/>
+        <path d="M22 8.5C18 11 18 15 22 17.5" stroke="var(--stitch)" stroke-width="1.4" fill="none"/>
+      </svg>
+      All Things Foundation
+    </button>
+    <nav class="tabs" role="tablist" aria-label="Site sections">
+      <button class="tab-btn" type="button" role="tab" data-view="home" aria-selected="true">Home</button>
+      <button class="tab-btn" type="button" role="tab" data-view="connect" aria-selected="false">Connect With Us</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section id="view-home" class="view">
+
+    <div class="container stack hero">
+      <p class="eyebrow">Maple Shade, New Jersey</p>
+      <h1>All Things Foundation</h1>
+      <p class="tagline">Discipling Players. Building Faith.</p>
+      <p class="subhead">A faith-based baseball discipleship ministry — equipping players and coaches physically and spiritually, on the field and off.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" type="button" data-switch="connect">Connect With Us</button>
+        <a class="btn btn-outline" href="#mission">Our Mission &amp; Vision</a>
+      </div>
+      <p class="verse">&ldquo;I can do all things through Christ who strengthens me.&rdquo;<span>Philippians 4:13</span></p>
+    </div>
+
+    <div class="container"><div class="stitch-divider" aria-hidden="true"></div></div>
+
+    <div class="container stack" id="mission">
+      <div class="mission-vision">
+        <div class="mv-card">
+          <p class="eyebrow">Mission</p>
+          <p>&ldquo;To provide discipleship to baseball players and coaches through events, education, worship, and community outreach.&rdquo;</p>
+        </div>
+        <div class="mv-divider" aria-hidden="true"></div>
+        <div class="mv-card">
+          <p class="eyebrow">Vision</p>
+          <p>&ldquo;To equip players and coaches physically and spiritually to spread the Word of God through baseball.&rdquo;</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container stack">
+      <p class="eyebrow">Core Values</p>
+      <h2>What We Stand On</h2>
+      <div class="values-grid">
+        <article class="value-card">
+          <span class="value-mark">F</span>
+          <h3>Faith</h3>
+          <p>Rooted in Christ and biblical truth.</p>
+        </article>
+        <article class="value-card">
+          <span class="value-mark">C</span>
+          <h3>Compassion</h3>
+          <p>Meeting people where they are.</p>
+        </article>
+        <article class="value-card">
+          <span class="value-mark">C</span>
+          <h3>Community</h3>
+          <p>Stronger together.</p>
+        </article>
+        <article class="value-card">
+          <span class="value-mark">I</span>
+          <h3>Integrity</h3>
+          <p>Honest, transparent, accountable.</p>
+        </article>
+        <article class="value-card">
+          <span class="value-mark">S</span>
+          <h3>Service</h3>
+          <p>Living out our mission daily.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="container stack">
+      <p class="eyebrow">Upcoming Events</p>
+      <h2>Xavier Strong Baseball Clinic</h2>
+      <article class="event-card">
+        <div class="event-main">
+          <p class="event-eyebrow">Baseball Clinic</p>
+          <h3>Xavier Strong Baseball Clinic</h3>
+          <p>Join us for a baseball clinic connecting faith and sport in a welcoming community.</p>
+          <a class="btn btn-outline" href="#" data-clinic-learn-more>Learn More</a>
+        </div>
+        <div class="event-stub">
+          <dl class="event-facts">
+            <div><dt>Date</dt><dd>Oct 8, 2026</dd></div>
+            <div><dt>Time</dt><dd>6:00 PM</dd></div>
+            <div><dt>Ages</dt><dd>8&ndash;18</dd></div>
+            <div><dt>Price</dt><dd>$20 / player</dd></div>
+          </dl>
+        </div>
+      </article>
+    </div>
+
+    <div class="container stack">
+      <div class="closing-cta">
+        <h2>We&rsquo;d Love to Meet You</h2>
+        <p>Whether you&rsquo;re stepping onto the field for the first time or you&rsquo;ve been part of this community for years, there&rsquo;s a place for you here.</p>
+        <button class="btn btn-primary" type="button" data-switch="connect">Connect With Us</button>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>All Things Foundation &middot; Maple Shade, NJ &middot; Philippians 4:13</p>
+    </footer>
+
+  </section>
+
+  <section id="view-connect" class="view" hidden>
+
+    <div class="container stack connect-wrap">
+      <div class="connect-head">
+        <p class="eyebrow">Connect With Us</p>
+        <h1>Let&rsquo;s Get Acquainted</h1>
+        <p class="subhead">Fill out this connection card and someone from our team will follow up with you personally.</p>
+      </div>
+
+      <!-- Airtable native Form view (base apppFzglcStheiDLa, Submissions table), fields: Name, Email, Phone, Reason, Message. Public link, no login required. -->
+      <div id="airtableFormEmbed">
+        <iframe class="airtable-embed" src="https://airtable.com/embed/apppFzglcStheiDLa/shrVWeAcALk7wBnHj" frameborder="0" onmousewheel="" width="100%" height="820" style="background: transparent; border: none;" title="All Things Foundation Connection Card"></iframe>
+      </div>
+
+      <form id="connectionCardForm" novalidate hidden>
+        <div class="field">
+          <label for="cc-name">Full Name<span class="req">*</span></label>
+          <input id="cc-name" name="name" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="cc-email">Email<span class="req">*</span></label>
+            <input id="cc-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="cc-phone">Phone <span class="optional">(optional)</span></label>
+            <input id="cc-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+
+        <fieldset class="field reason-field">
+          <legend>Reason for Connecting<span class="req">*</span></legend>
+          <div class="reason-options">
+            <label class="reason-chip"><input type="radio" name="reason" value="First-Time Visitor" required> First-Time Visitor</label>
+            <label class="reason-chip"><input type="radio" name="reason" value="Want to Get Involved"> Want to Get Involved</label>
+            <label class="reason-chip"><input type="radio" name="reason" value="Prayer Request"> Prayer Request</label>
+            <label class="reason-chip"><input type="radio" name="reason" value="Salvation Decision"> Salvation Decision</label>
+            <label class="reason-chip"><input type="radio" name="reason" value="Other"> Other</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="cc-message">Message / Prayer Request <span class="optional">(optional)</span></label>
+          <textarea id="cc-message" name="message" rows="4" placeholder="Share anything you'd like our team to know or pray about..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+      </form>
+
+      <div id="connectConfirmation" class="confirmation" hidden role="status">
+        <p>Thanks! We&rsquo;ll be in touch.</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>All Things Foundation &middot; Maple Shade, NJ &middot; Philippians 4:13</p>
+    </footer>
+
+  </section>
+
+</main>
+
+<script>
+  (function(){
+    var homeView = document.getElementById('view-home');
+    var connectView = document.getElementById('view-connect');
+    var tabButtons = document.querySelectorAll('.tab-btn');
+
+    function showView(name){
+      var isHome = name !== 'connect';
+      homeView.hidden = !isHome;
+      connectView.hidden = isHome;
+      tabButtons.forEach(function(btn){
+        btn.setAttribute('aria-selected', btn.getAttribute('data-view') === name ? 'true' : 'false');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      try { sessionStorage.setItem('atf-active-view', name); } catch (err) {}
+    }
+
+    document.querySelectorAll('[data-switch]').forEach(function(el){
+      el.addEventListener('click', function(){ showView(el.getAttribute('data-switch')); });
+    });
+    tabButtons.forEach(function(btn){
+      btn.addEventListener('click', function(){ showView(btn.getAttribute('data-view')); });
+    });
+
+    try {
+      var saved = sessionStorage.getItem('atf-active-view');
+      if (saved === 'connect') { showView('connect'); }
+    } catch (err) {}
+
+    var form = document.getElementById('connectionCardForm');
+    var confirmation = document.getElementById('connectConfirmation');
+
+    form.addEventListener('submit', function(event){
+      event.preventDefault();
+
+      <!-- AIRTABLE_FORM_EMBED_PLACEHOLDER: replace this handler with an iframe embed or fetch call once the Airtable Form share link is available -->
+
+      form.hidden = true;
+      confirmation.hidden = false;
+      form.reset();
+    });
+  })();
+</script>
+
+</body>
+</html>
