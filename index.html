@@ -49,7 +49,7 @@
   :focus-visible{outline:3px solid var(--red-bright);outline-offset:2px}
 
   .container{max-width:1040px;margin-inline:auto;padding-inline:clamp(16px,4vw,24px)}
-  section.stack{padding-block:clamp(2.5rem,6vw,4.5rem)}
+  .stack{padding-block:clamp(2.5rem,6vw,4.5rem)}
 
   .eyebrow{
     font-family:var(--cond);font-weight:600;font-size:13px;
@@ -141,6 +141,7 @@
 
   /* ---------- core values ---------- */
   .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.1rem;margin-top:2rem}
+  @media(max-width:700px){.values-grid{grid-template-columns:1fr}}
   .value-card{padding:1.6rem 1.4rem;text-align:center}
   .value-mark{
     display:inline-flex;align-items:center;justify-content:center;width:2.3rem;height:2.3rem;
