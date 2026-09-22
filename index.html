@@ -166,6 +166,13 @@
   @media(max-width:640px){.facts{grid-template-columns:repeat(2,1fr)}}
   .fact{padding:1rem .75rem;text-align:center;border-right:1px solid var(--rule)}
   .fact:last-child{border-right:none}
+  .fact:nth-child(4){border-right:none}
+  .fact-wide{grid-column:1/-1;border-right:none;border-top:1px solid var(--rule)}
+  .fact-sub{font-size:.8rem;color:var(--ink-soft);margin-top:.15rem}
+  .event-map-link{color:inherit;text-decoration:none;
+    border-bottom:1px solid var(--red-line);transition:color .14s,border-color .14s}
+  .event-map-link:hover{color:var(--red);border-color:var(--red)}
+  @media(max-width:640px){.fact:nth-child(2n){border-right:none}}
   .fact-label{font-family:var(--cond);font-weight:600;font-size:10px;letter-spacing:.18em;
     text-transform:uppercase;color:var(--red);margin-bottom:.35rem}
   .fact-value{font-family:var(--cond);font-weight:600;font-size:1.05rem;color:var(--ink)}
@@ -293,12 +300,17 @@
           </div>
         </div>
         <div class="event-body">
-          <p>Join us for a baseball clinic connecting faith and sport in a welcoming community. Coaches from Chestnut Hill Academy. Rain or shine, walk-ups accepted.</p>
+          <p>Join us for a baseball clinic connecting faith and sport in a welcoming community. Rain or shine, walk-ups accepted.</p>
           <div class="facts">
             <div class="fact"><div class="fact-label">Date</div><div class="fact-value">Oct 8, 2026</div></div>
             <div class="fact"><div class="fact-label">Time</div><div class="fact-value">6:00 PM</div></div>
             <div class="fact"><div class="fact-label">Ages</div><div class="fact-value">8&ndash;18</div></div>
             <div class="fact"><div class="fact-label">Cost</div><div class="fact-value">$20</div></div>
+            <div class="fact fact-wide">
+              <div class="fact-label">Where</div>
+              <div class="fact-value"><a class="event-map-link" href="https://maps.google.com/?q=499+S+Clinton+Ave,+Maple+Shade,+NJ+08052" target="_blank" rel="noopener">499 S Clinton Ave</a></div>
+              <div class="fact-sub">Maple Shade, NJ 08052</div>
+            </div>
           </div>
           <a class="btn btn-primary" href="https://xavier-strong-clinic.pages.dev/" style="width:100%;text-align:center;display:flex">Register Now</a>
         </div>
