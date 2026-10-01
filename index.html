@@ -357,33 +357,55 @@
 </main>
 
 <script>
+  // Page routing: every <section class="view" id="view-NAME"> is reachable at #NAME.
+  // To add a page, add a section with id="view-NAME" and a tab with data-view="NAME".
   (function(){
-    var homeView = document.getElementById('view-home');
-    var connectView = document.getElementById('view-connect');
     var tabButtons = document.querySelectorAll('.tab-btn');
 
-    function showView(name){
-      var isHome = name !== 'connect';
-      homeView.hidden = !isHome;
-      connectView.hidden = isHome;
+    function viewExists(name){
+      return !!name && !!document.getElementById('view-' + name);
+    }
+
+    function showView(name, scroll){
+      if (!viewExists(name)) { name = 'home'; }
+      document.querySelectorAll('.view').forEach(function(v){
+        v.hidden = v.id !== 'view-' + name;
+      });
       tabButtons.forEach(function(btn){
         btn.setAttribute('aria-selected', btn.getAttribute('data-view') === name ? 'true' : 'false');
       });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      try { sessionStorage.setItem('atf-active-view', name); } catch (err) {}
+      if (scroll !== false) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }
+
+    function go(name){
+      var current = location.hash.slice(1);
+      if (!viewExists(current)) { current = 'home'; }
+      if (current !== name) {
+        var url = name === 'home' ? location.pathname + location.search : '#' + name;
+        history.pushState(null, '', url);
+      }
+      showView(name);
+    }
+
+    function fromHash(){
+      var name = location.hash.slice(1);
+      if (viewExists(name)) { showView(name); return true; }
+      return false;
     }
 
     document.querySelectorAll('[data-switch]').forEach(function(el){
-      el.addEventListener('click', function(){ showView(el.getAttribute('data-switch')); });
+      el.addEventListener('click', function(){ go(el.getAttribute('data-switch')); });
     });
     tabButtons.forEach(function(btn){
-      btn.addEventListener('click', function(){ showView(btn.getAttribute('data-view')); });
+      btn.addEventListener('click', function(){ go(btn.getAttribute('data-view')); });
     });
 
-    try {
-      var saved = sessionStorage.getItem('atf-active-view');
-      if (saved === 'connect') { showView('connect'); }
-    } catch (err) {}
+    // Back/forward buttons. In-page anchors like #mission are not views, so Home stays put.
+    window.addEventListener('popstate', function(){
+      if (!fromHash()) { showView('home', false); }
+    });
+
+    if (!fromHash()) { showView('home', false); }
   })();
 </script>
 
