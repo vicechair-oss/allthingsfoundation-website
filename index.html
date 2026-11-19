@@ -220,6 +220,7 @@
     </button>
     <nav class="tabs" role="tablist" aria-label="Site sections">
       <button class="tab-btn" type="button" role="tab" data-view="home" aria-selected="true">Home</button>
+      <button class="tab-btn" type="button" role="tab" data-view="past" aria-selected="false">Past Events</button>
       <button class="tab-btn" type="button" role="tab" data-view="connect" aria-selected="false">Connect With Us</button>
     </nav>
   </div>
@@ -291,29 +292,11 @@
 
     <div class="container stack">
       <p class="eyebrow" style="text-align:center">Upcoming Events</p>
-      <h2>Xavier Strong Baseball Clinic</h2>
+      <h2>More Events Coming Soon</h2>
       <article class="card event-card">
-        <div class="event-top">
-          <img class="logo-xs xs-logo-img" src="" alt="Xavier Strong">
-          <div class="event-titles">
-            <p class="event-eyebrow">Inaugural All Things Foundation</p>
-            <h3>Xavier Strong Baseball Clinic</h3>
-          </div>
-        </div>
-        <div class="event-body">
-          <p>Join us for a baseball clinic connecting faith and sport in a welcoming community.</p>
-          <div class="facts">
-            <div class="fact"><div class="fact-label">Date</div><div class="fact-value">Oct 8, 2026</div></div>
-            <div class="fact"><div class="fact-label">Time</div><div class="fact-value">6:00 PM</div></div>
-            <div class="fact"><div class="fact-label">Ages</div><div class="fact-value">7&ndash;18</div></div>
-            <div class="fact"><div class="fact-label">Cost</div><div class="fact-value">Free!</div></div>
-            <div class="fact fact-wide">
-              <div class="fact-label">Where</div>
-              <div class="fact-value"><a class="event-map-link" href="https://maps.google.com/?q=499+S+Clinton+Ave,+Maple+Shade,+NJ+08052" target="_blank" rel="noopener">499 S Clinton Ave</a></div>
-              <div class="fact-sub">Maple Shade, NJ 08052</div>
-            </div>
-          </div>
-          <span class="btn btn-primary btn-closed" role="status" aria-disabled="true" style="width:100%;text-align:center;display:flex">Registration Has Closed</span>
+        <div class="event-body" style="text-align:center">
+          <p>We&rsquo;re planning our next clinics and gatherings now. Check back here for dates, or connect with us to hear about them first.</p>
+          <button class="btn btn-primary" type="button" data-switch="past">See Past Events</button>
         </div>
       </article>
     </div>
@@ -324,6 +307,43 @@
         <p>Whether you&rsquo;re stepping onto the field for the first time or you&rsquo;ve been part of this community for years, there&rsquo;s a place for you here.</p>
         <button class="btn btn-primary" type="button" data-switch="connect">Connect With Us</button>
       </div>
+    </div>
+
+    <footer class="site-footer">
+      <img class="atf-logo-img" src="" alt="All Things Foundation logo">
+      <p class="footnote">All Things Foundation &middot; Maple Shade, NJ &middot; Philippians 4:13 &middot; <a href="https://atf-staff-portal.pages.dev">Staff Portal</a></p>
+    </footer>
+
+  </section>
+
+  <section id="view-past" class="view" hidden>
+
+    <div class="container stack">
+      <p class="eyebrow" style="text-align:center">Past Events</p>
+      <h2>Where We&rsquo;ve Been</h2>
+      <article class="card event-card">
+        <div class="event-top">
+          <img class="logo-xs xs-logo-img" src="" alt="Xavier Strong">
+          <div class="event-titles">
+            <p class="event-eyebrow">Inaugural All Things Foundation</p>
+            <h3>Xavier Strong Baseball Clinic</h3>
+          </div>
+        </div>
+        <div class="event-body">
+          <p>Our first clinic brought players, coaches, and families together for a night of baseball and faith. Thank you to everyone who came out and supported Xavier.</p>
+          <div class="facts">
+            <div class="fact"><div class="fact-label">Date</div><div class="fact-value">Oct 8, 2026</div></div>
+            <div class="fact"><div class="fact-label">Time</div><div class="fact-value">6:00&ndash;9:00 PM</div></div>
+            <div class="fact"><div class="fact-label">Ages</div><div class="fact-value">7&ndash;18</div></div>
+            <div class="fact"><div class="fact-label">Status</div><div class="fact-value">Completed</div></div>
+            <div class="fact fact-wide">
+              <div class="fact-label">Where</div>
+              <div class="fact-value"><a class="event-map-link" href="https://maps.google.com/?q=499+S+Clinton+Ave,+Maple+Shade,+NJ+08052" target="_blank" rel="noopener">499 S Clinton Ave</a></div>
+              <div class="fact-sub">Maple Shade, NJ 08052</div>
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
 
     <footer class="site-footer">
