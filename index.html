@@ -233,6 +233,23 @@
   .lightbox img,.lightbox video{max-width:100%;max-height:85vh}
   .lightbox p{color:#fff;text-align:center;margin:.6rem 0 0}
   .lightbox button{position:absolute;top:14px;right:14px;background:none;border:0;color:#fff;font-size:30px;cursor:pointer}
+
+  /* Shorts row + vertical scroll player */
+  .shorts-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,180px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 12px;margin-top:1.5rem;-webkit-overflow-scrolling:touch}
+  .shorts-row button{scroll-snap-align:start;position:relative;aspect-ratio:9/16;border:0;padding:0;border-radius:10px;overflow:hidden;background:#1A1513;cursor:pointer;text-align:left}
+  .shorts-row img,.shorts-row video{width:100%;height:100%;object-fit:cover;display:block}
+  .shorts-row .cap{position:absolute;left:0;right:0;bottom:0;padding:28px 10px 10px;color:#fff;font-size:.82rem;line-height:1.3;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+  .shorts-row .play{font-size:22px}
+  .sp{position:fixed;inset:0;z-index:60;background:#000;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain}
+  .sp-slide{height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;display:grid;place-items:center;position:relative}
+  .sp-frame{position:relative;height:100%;max-height:100dvh;aspect-ratio:9/16;max-width:100vw;background:#111}
+  .sp-frame video,.sp-frame iframe,.sp-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+  .sp-cap{position:absolute;left:0;right:0;bottom:0;padding:60px 16px 22px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.7));pointer-events:none}
+  .sp-cap b{display:block;font-family:var(--cond);letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:#F3D9D9;margin-bottom:4px}
+  .sp-ui{position:fixed;top:12px;right:12px;z-index:61;display:flex;gap:8px}
+  .sp-ui button{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:20px;cursor:pointer}
+  .sp-hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:61;color:rgba(255,255,255,.7);font-family:var(--cond);font-size:11px;letter-spacing:.16em;text-transform:uppercase;pointer-events:none}
+  body.sp-open{overflow:hidden}
 </style>
 </head>
 <body>
@@ -326,6 +343,12 @@
           <button class="btn btn-primary" type="button" data-switch="past">See Past Events</button>
         </div>
       </article>
+    </div>
+
+    <div class="container stack shorts-wrap" id="shorts-slot" hidden>
+      <p class="eyebrow" style="text-align:center">Shorts</p>
+      <h2>Latest Shorts</h2>
+      <div class="shorts-row" id="shorts-row"></div>
     </div>
 
     <div class="container stack">
@@ -567,7 +590,73 @@
       document.body.appendChild(box);
     }
 
+
+    // ---- Shorts ----
+    var shorts = [];
+    function shortThumb(m){
+      if (m.kind === "YouTube Short") return '<img loading="lazy" src="https://i.ytimg.com/vi/' + esc(ytId(m.src)) + '/hq720.jpg" onerror="this.src=\'https://i.ytimg.com/vi/' + esc(ytId(m.src)) + '/hqdefault.jpg\'" alt="">';
+      return '<video preload="metadata" muted playsinline src="' + esc(m.src) + '#t=0.5"></video>';
+    }
+    function renderShorts(){
+      var slot = document.getElementById("shorts-slot");
+      if (!shorts.length) { slot.hidden = true; return; }
+      slot.hidden = false;
+      document.getElementById("shorts-row").innerHTML = shorts.map(function(m, i){
+        return '<button type="button" data-short="' + i + '" aria-label="Play Short: ' + esc(m.caption || "All Things Foundation") + '">' + shortThumb(m) + '<span class="play">&#9654;</span>' + (m.caption ? '<span class="cap">' + esc(m.caption) + '</span>' : '') + '</button>';
+      }).join("");
+    }
+    function openShorts(start){
+      var muted = true;
+      var sp = document.createElement("div"); sp.className = "sp"; sp.setAttribute("role", "dialog"); sp.setAttribute("aria-label", "Shorts");
+      sp.innerHTML = shorts.map(function(m, i){
+        return '<section class="sp-slide" data-i="' + i + '"><div class="sp-frame">' + (m.kind === "YouTube Short" ? shortThumb(m) : '<video loop playsinline muted preload="metadata" src="' + esc(m.src) + '"></video>') +
+          '<div class="sp-cap">' + (m.eventName ? '<b>' + esc(m.eventName) + '</b>' : '') + esc(m.caption) + '</div></div></section>';
+      }).join("");
+      var ui = document.createElement("div"); ui.className = "sp-ui";
+      ui.innerHTML = '<button type="button" data-sp="mute" aria-label="Unmute">&#128263;</button><button type="button" data-sp="close" aria-label="Close">&times;</button>';
+      var hint = document.createElement("div"); hint.className = "sp-hint"; hint.textContent = shorts.length > 1 ? "Swipe or scroll for more" : "";
+      document.body.append(sp, ui, hint); document.body.classList.add("sp-open");
+      var active = -1;
+      // Only the Short on screen plays. YouTube Shorts load their player only when they come on screen.
+      function activate(i){
+        if (i === active) return; active = i;
+        sp.querySelectorAll(".sp-slide").forEach(function(sl){
+          var n = +sl.getAttribute("data-i"), m = shorts[n], fr = sl.querySelector(".sp-frame");
+          if (m.kind === "YouTube Short") {
+            var ifr = fr.querySelector("iframe");
+            if (n === i && !ifr) { var id = esc(ytId(m.src)); fr.insertAdjacentHTML("afterbegin", '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&mute=' + (muted ? 1 : 0) + '&loop=1&playlist=' + id + '&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="' + esc(m.caption || "Short") + '"></iframe>'); }
+            if (n !== i && ifr) ifr.remove();
+          } else {
+            var v = fr.querySelector("video"); v.muted = muted;
+            if (n === i) { v.play().catch(function(){}); } else { v.pause(); }
+          }
+        });
+        if (i > 0) hint.textContent = "";
+      }
+      var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if (e.isIntersecting && e.intersectionRatio > 0.6) activate(+e.target.getAttribute("data-i")); }); }, { root: sp, threshold: [0.6] });
+      sp.querySelectorAll(".sp-slide").forEach(function(sl){ io.observe(sl); });
+      sp.querySelectorAll(".sp-slide")[start].scrollIntoView();
+      activate(start);
+      function close(){ io.disconnect(); sp.remove(); ui.remove(); hint.remove(); document.body.classList.remove("sp-open"); document.removeEventListener("keydown", key); }
+      function key(ev){
+        if (ev.key === "Escape") close();
+        if (ev.key === "ArrowDown" || ev.key === "ArrowUp") { ev.preventDefault(); var n = Math.max(0, Math.min(shorts.length - 1, active + (ev.key === "ArrowDown" ? 1 : -1))); sp.querySelectorAll(".sp-slide")[n].scrollIntoView({ behavior: "smooth" }); }
+      }
+      document.addEventListener("keydown", key);
+      ui.addEventListener("click", function(ev){
+        var b = ev.target.closest("button"); if (!b) return;
+        if (b.getAttribute("data-sp") === "close") return close();
+        muted = !muted; b.innerHTML = muted ? "&#128263;" : "&#128266;"; b.setAttribute("aria-label", muted ? "Unmute" : "Mute");
+        sp.querySelectorAll("video").forEach(function(v){ v.muted = muted; });
+        var cur = sp.querySelectorAll(".sp-slide")[active].querySelector("iframe"); if (cur) { cur.remove(); var keep = active; active = -1; activate(keep); }
+      });
+      // Tap an uploaded clip to pause or play it.
+      sp.addEventListener("click", function(ev){ var v = ev.target.closest(".sp-frame") && ev.target.closest(".sp-frame").querySelector("video"); if (v && !ev.target.closest("iframe")) { v.paused ? v.play() : v.pause(); } });
+    }
+
     document.addEventListener("click", function(ev){
+      var sh = ev.target.closest && ev.target.closest("[data-short]");
+      if (sh) { openShorts(+sh.getAttribute("data-short")); return; }
       var a = ev.target.closest && ev.target.closest("[data-lb]");
       if (a && byId[a.getAttribute("data-lb")]) { ev.preventDefault(); lightbox(byId[a.getAttribute("data-lb")]); return; }
       var g = ev.target.closest && ev.target.closest("[data-gal]");
@@ -581,6 +670,8 @@
       if (d.upcoming.length) document.getElementById("upcoming-slot").innerHTML = '<p class="eyebrow" style="text-align:center">Upcoming Events</p><h2>' + (d.upcoming.length > 1 ? "Join Us" : "Join Us") + '</h2>' + d.upcoming.map(function(e){ return card(e, false); }).join("");
       if (d.past.length) document.getElementById("past-slot").innerHTML = '<p class="eyebrow" style="text-align:center">Past Events</p><h2>Where We&rsquo;ve Been</h2>' + d.past.map(function(e){ return card(e, true); }).join("");
       gallery = d.gallery; renderGallery();
+      shorts = d.shorts || []; renderShorts();
+      if (location.hash === "#shorts" && shorts.length) openShorts(0);
     }).catch(function(){});
   })();
 </script>

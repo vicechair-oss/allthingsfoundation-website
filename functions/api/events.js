@@ -1,5 +1,5 @@
 // Public: published events and approved photos/videos for the website.
-// GET /api/events -> { upcoming:[...], past:[...], gallery:[...] }
+// GET /api/events -> { upcoming:[...], past:[...], gallery:[...], shorts:[...] }
 // Env: AIRTABLE_TOKEN (read access to the ATF Operations base), OPS_BASE_ID.
 // Only Published + Show on Website events and Approved media are returned. Staff fields are never sent.
 
@@ -25,15 +25,23 @@ export async function onRequestGet({ env }) {
   if (!env.AIRTABLE_TOKEN || !env.OPS_BASE_ID) return Response.json({ error: "not configured" }, { status: 503 });
   try {
     const [evs, media] = await Promise.all([all(env, "Events"), all(env, "Event Media")]);
-    const byEvent = {}, gallery = [];
+    const byEvent = {}, gallery = [], shorts = [];
     const evName = Object.fromEntries(evs.map(e => [e.id, e.fields["Name"] || ""]));
     const evDate = Object.fromEntries(evs.map(e => [e.id, e.fields["Date"] || ""]));
     const evSlug = Object.fromEntries(evs.map(e => [e.id, e.fields["Slug"] || e.id]));
     const live = new Set(evs.filter(e => e.fields["Status"] === "Published" && e.fields["Show on Website"]).map(e => e.id));
     for (const m of media) {
       const f = m.fields; const ev = (f["Event"] || [])[0];
-      if (f["Status"] !== "Approved" || !live.has(ev)) continue;
+      if (f["Status"] !== "Approved") continue;
       const kind = f["Kind"] || "Photo";
+      // Shorts can stand alone; everything else needs a published event.
+      if (kind === "Short" || kind === "YouTube Short") {
+        if (kind === "Short" && !String(f["Storage Key"] || "").startsWith("public/")) continue;
+        shorts.push({ id: m.id, kind, caption: f["Caption"] || "", src: kind === "Short" ? mediaUrl(f["Storage Key"]) : f["YouTube URL"],
+          event: live.has(ev) ? evSlug[ev] : "", eventName: live.has(ev) ? evName[ev] : "", created: m.createdTime });
+        continue;
+      }
+      if (!live.has(ev)) continue;
       if (kind !== "YouTube" && !String(f["Storage Key"] || "").startsWith("public/")) continue;
       const item = { id: m.id, kind, caption: f["Caption"] || "", credit: f["Credit"] || "",
         src: kind === "YouTube" ? f["YouTube URL"] : mediaUrl(f["Storage Key"]),
@@ -61,8 +69,9 @@ export async function onRequestGet({ env }) {
     }
     upcoming.sort((a, b) => (b.featured - a.featured) || a.date.localeCompare(b.date));
     past.sort((a, b) => b.date.localeCompare(a.date));
+    shorts.sort((a, b) => b.created.localeCompare(a.created));
     gallery.sort((a, b) => b.eventDate.localeCompare(a.eventDate) || b.created.localeCompare(a.created));
-    return Response.json({ upcoming, past, gallery }, { headers: { "cache-control": "public, max-age=60" } });
+    return Response.json({ upcoming, past, gallery, shorts }, { headers: { "cache-control": "public, max-age=60" } });
   } catch (e) {
     return Response.json({ error: "unavailable" }, { status: 502 });
   }
