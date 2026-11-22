@@ -262,6 +262,18 @@
     .header-inner .tabs::-webkit-scrollbar{display:none}
     .tab-btn{white-space:nowrap;flex:0 0 auto;padding:.5rem .9rem}
   }
+
+  /* Follow Along: Instagram grid from /api/instagram + Facebook Page plugin */
+  .social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;align-items:start}
+  .social-card{padding:1.1rem}
+  .social-card h3{font-size:1.15rem;margin-bottom:.8rem;text-align:center}
+  .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1rem}
+  .ig-grid a{position:relative;display:block;aspect-ratio:1/1;overflow:hidden;border-radius:3px;background:var(--rule)}
+  .ig-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+  .ig-grid a:hover img{transform:scale(1.04)}
+  .ig-grid .ig-kind{position:absolute;top:6px;right:6px;color:#fff;font-size:.8rem;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .fb-frame{width:100%;max-width:500px;height:560px;border:0;display:block;margin:0 auto 1rem;background:var(--white)}
+  .social-card .btn{width:100%}
 </style>
 </head>
 <body>
@@ -363,6 +375,25 @@
       <p class="eyebrow" style="text-align:center">Shorts</p>
       <h2>Latest Shorts</h2>
       <div class="shorts-row" id="shorts-row"></div>
+    </div>
+
+    <div class="container stack" id="social-slot">
+      <p class="eyebrow" style="text-align:center">Follow Along</p>
+      <h2>From Our Feed</h2>
+      <p class="section-subtitle">The latest from All Things Foundation on Instagram and Facebook.</p>
+      <div class="social-grid">
+        <div class="card social-card" id="ig-card">
+          <h3>Instagram</h3>
+          <div class="ig-grid" id="ig-grid" hidden></div>
+          <a class="btn btn-primary" href="https://www.instagram.com/allthingsfoundation_/" target="_blank" rel="noopener">Follow @allthingsfoundation_</a>
+        </div>
+        <!-- Set data-page to the Facebook Page's address (facebook.com/PAGE-NAME). The card stays hidden until it is set. -->
+        <div class="card social-card" id="fb-card" data-page="" hidden>
+          <h3>Facebook</h3>
+          <div id="fb-slot"></div>
+          <a class="btn btn-primary" id="fb-follow" href="#" target="_blank" rel="noopener">Follow on Facebook</a>
+        </div>
+      </div>
     </div>
 
     <div class="container stack">
@@ -689,6 +720,37 @@
       gallery = d.gallery; renderGallery();
       shorts = d.shorts || []; renderShorts();
       if (location.hash === "#shorts" && shorts.length) openShorts(0);
+    }).catch(function(){});
+  })();
+</script>
+<script>
+  // Follow Along: Facebook Page plugin (Meta's own embed, updates itself) and Instagram posts from /api/instagram.
+  (function(){
+    var fb = document.getElementById("fb-card"), page = (fb.getAttribute("data-page") || "").trim();
+    if (/^https:\/\/(www\.)?facebook\.com\//.test(page)) {
+      var slot = document.getElementById("fb-slot");
+      var w = Math.min(500, Math.max(180, Math.floor(slot.clientWidth || fb.clientWidth || 340)));
+      document.getElementById("fb-follow").href = page;
+      fb.hidden = false;
+      // Load the plugin only when the section scrolls near, so Facebook doesn't slow the page.
+      var load = function(){
+        if (slot.firstChild) return;
+        var q = new URLSearchParams({ href: page, tabs: "timeline", width: String(w), height: "560", small_header: "true", adapt_container_width: "true", hide_cover: "false", show_facepile: "false" });
+        slot.innerHTML = '<iframe class="fb-frame" title="All Things Foundation on Facebook" loading="lazy" scrolling="no" allowfullscreen allow="encrypted-media; picture-in-picture; web-share" src="https://www.facebook.com/plugins/page.php?' + q.toString() + '"></iframe>';
+      };
+      if ("IntersectionObserver" in window) { var io = new IntersectionObserver(function(es){ if (es[0].isIntersecting) { load(); io.disconnect(); } }, { rootMargin: "400px" }); io.observe(fb); } else load();
+    }
+    var esc = function(t){ return String(t).replace(/[&<>"']/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); };
+    fetch("/api/instagram").then(function(r){ return r.ok ? r.json() : Promise.reject(); }).then(function(d){
+      var posts = (d.posts || []).filter(function(p){ return /^https:\/\//.test(p.image) && /^https:\/\/(www\.)?instagram\.com\//.test(p.permalink); }).slice(0, 9);
+      if (!posts.length) return;
+      var g = document.getElementById("ig-grid");
+      g.innerHTML = posts.map(function(p){
+        var cap = (p.caption || "Instagram post").split("\n")[0].slice(0, 120);
+        var mark = p.type === "VIDEO" ? "&#9654;" : p.type === "CAROUSEL_ALBUM" ? "&#10697;" : "";
+        return '<a href="' + esc(p.permalink) + '" target="_blank" rel="noopener" title="' + esc(cap) + '"><img loading="lazy" src="' + esc(p.image) + '" alt="' + esc(cap) + '">' + (mark ? '<span class="ig-kind" aria-hidden="true">' + mark + '</span>' : '') + '</a>';
+      }).join("");
+      g.hidden = false;
     }).catch(function(){});
   })();
 </script>
