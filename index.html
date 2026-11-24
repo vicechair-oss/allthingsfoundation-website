@@ -262,6 +262,11 @@
     .header-inner .tabs::-webkit-scrollbar{display:none}
     .tab-btn{white-space:nowrap;flex:0 0 auto;padding:.5rem .9rem}
   }
+
+  /* Facebook page feed */
+  .fb-frame{display:flex;justify-content:center;margin-top:1.5rem}
+  .fb-frame iframe{border:1px solid var(--rule);border-radius:4px;background:var(--white);width:100%;max-width:500px;height:640px}
+  .fb-note{text-align:center;margin-top:.75rem;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -357,6 +362,13 @@
           <button class="btn btn-primary" type="button" data-switch="past">See Past Events</button>
         </div>
       </article>
+    </div>
+
+    <div class="container stack fb-wrap" id="fb-slot" hidden>
+      <p class="eyebrow" style="text-align:center">On Facebook</p>
+      <h2>Latest From Our Page</h2>
+      <div class="fb-frame" id="fb-frame"></div>
+      <p class="fb-note"><a href="https://www.facebook.com/share/1SRAuseBrj/" target="_blank" rel="noopener">See everything on Facebook</a></p>
     </div>
 
     <div class="container stack shorts-wrap" id="shorts-slot" hidden>
@@ -691,6 +703,23 @@
       shorts = d.shorts || []; renderShorts();
       if (location.hash === "#shorts" && shorts.length) openShorts(0);
     }).catch(function(){});
+  })();
+</script>
+<script>
+  // Facebook page feed (Facebook's Page Plugin). Set FB_PAGE to the page's full address,
+  // e.g. https://www.facebook.com/AllThingsFoundation. It only works for a public Facebook Page,
+  // not a personal profile or a group. Empty = the section stays hidden.
+  (function(){
+    var FB_PAGE = "";
+    if (!FB_PAGE) return;
+    var slot = document.getElementById("fb-slot"), frame = document.getElementById("fb-frame");
+    function load(){
+      var w = Math.min(500, Math.max(280, frame.clientWidth || 500));
+      frame.innerHTML = '<iframe title="All Things Foundation on Facebook" loading="lazy" scrolling="no" allow="encrypted-media" ' +
+        'src="https://www.facebook.com/plugins/page.php?href=' + encodeURIComponent(FB_PAGE) +
+        '&tabs=timeline&width=' + w + '&height=640&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"></iframe>';
+    }
+    slot.hidden = false; load();
   })();
 </script>
 </body>
