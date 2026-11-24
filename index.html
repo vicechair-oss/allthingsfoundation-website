@@ -272,6 +272,11 @@
   .fb-text p:last-child{margin:0;color:var(--ink-soft)}
   .fb-btn{white-space:nowrap}
   @media(max-width:640px){.fb-card{grid-template-columns:1fr;text-align:center;justify-items:center}}
+
+  /* Featured graphic in the hero */
+  .hero-feature{display:block;max-width:520px;margin:1.6rem auto 1.4rem;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(26,21,19,.18);transition:transform .15s}
+  .hero-feature:hover{transform:translateY(-2px)}
+  .hero-feature img{display:block;width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -302,6 +307,12 @@
       <p class="eyebrow">Maple Shade, New Jersey</p>
       <h1>All Things Foundation</h1>
       <p class="tagline">Discipling Players &middot; Building Faith</p>
+      <a class="hero-feature" href="https://www.zeffy.com/en-US/donation-form/all-things-foundation" target="_blank" rel="noopener" aria-label="Donation update: support the Taylor family and the mission Xavier loved. Opens our donation page.">
+        <picture>
+          <source srcset="images/donation-update.webp" type="image/webp">
+          <img src="images/donation-update.jpg" width="1080" height="1077" alt="Donation update. With the passing of Xavier, we have been overwhelmed by the incredible outpouring of love, prayers, and support. If you feel led to support the Taylor family and the mission that Xavier loved so deeply, please make all donations through the link below. Thank you for standing with us. Philippians 4:13.">
+        </picture>
+      </a>
       <p class="subhead">A faith-based baseball discipleship ministry — equipping players and coaches physically and spiritually, on the field and off.</p>
       <div class="hero-actions">
         <button class="btn btn-primary" type="button" data-switch="connect">Connect With Us</button>
