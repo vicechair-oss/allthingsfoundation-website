@@ -265,7 +265,7 @@
 
   /* Facebook page feed */
   .fb-frame{display:flex;justify-content:center;margin-top:1.5rem}
-  .fb-frame iframe{border:1px solid var(--rule);border-radius:4px;background:var(--white);width:100%;max-width:500px;height:640px}
+  .fb-frame iframe{border:1px solid var(--rule);border-radius:4px;background:var(--white);width:100%;max-width:500px;height:220px}
   .fb-note{text-align:center;margin-top:.75rem;font-size:.9rem}
 </style>
 </head>
@@ -365,10 +365,10 @@
     </div>
 
     <div class="container stack fb-wrap" id="fb-slot" hidden>
-      <p class="eyebrow" style="text-align:center">On Facebook</p>
-      <h2>Latest From Our Page</h2>
+      <p class="eyebrow" style="text-align:center">Stay Connected</p>
+      <h2>Follow Along on Facebook</h2>
       <div class="fb-frame" id="fb-frame"></div>
-      <p class="fb-note"><a href="https://www.facebook.com/61590814792627" target="_blank" rel="noopener">See everything on Facebook</a></p>
+      <p class="fb-note">Event updates, photos, and prayer requests are posted on our Facebook page first. <a href="https://www.facebook.com/61590814792627" target="_blank" rel="noopener">Visit the page</a></p>
     </div>
 
     <div class="container stack shorts-wrap" id="shorts-slot" hidden>
@@ -706,7 +706,8 @@
   })();
 </script>
 <script>
-  // Facebook page feed (Facebook's Page Plugin). Set FB_PAGE to the page's full address,
+  // Facebook page card (Facebook's Page Plugin, header only). The post timeline is left off because
+  // Facebook shows it blank for this page type. Set FB_PAGE to the page's full address,
   // e.g. https://www.facebook.com/AllThingsFoundation. It only works for a public Facebook Page,
   // not a personal profile or a group. Empty = the section stays hidden.
   (function(){
@@ -717,7 +718,7 @@
       var w = Math.min(500, Math.max(280, frame.clientWidth || 500));
       frame.innerHTML = '<iframe title="All Things Foundation on Facebook" loading="lazy" scrolling="no" allow="encrypted-media" ' +
         'src="https://www.facebook.com/plugins/page.php?href=' + encodeURIComponent(FB_PAGE) +
-        '&tabs=timeline&width=' + w + '&height=640&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"></iframe>';
+        '&tabs=&width=' + w + '&height=220&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"></iframe>';
     }
     slot.hidden = false; load();
   })();
