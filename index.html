@@ -263,10 +263,15 @@
     .tab-btn{white-space:nowrap;flex:0 0 auto;padding:.5rem .9rem}
   }
 
-  /* Facebook page feed */
-  .fb-frame{display:flex;justify-content:center;margin-top:1.5rem}
-  .fb-frame iframe{border:1px solid var(--rule);border-radius:4px;background:var(--white);width:100%;max-width:500px;height:220px}
-  .fb-note{text-align:center;margin-top:.75rem;font-size:.9rem}
+
+  /* Facebook follow card */
+  .fb-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.5rem;background:var(--white);border:1px solid var(--rule);border-top:3px solid var(--red);padding:1.6rem 1.8rem;max-width:860px;margin:0 auto;width:100%}
+  .fb-logo{height:72px;width:auto}
+  .fb-text .eyebrow{margin:0 0 .25rem}
+  .fb-text h3{margin:0 0 .35rem;font-size:1.35rem}
+  .fb-text p:last-child{margin:0;color:var(--ink-soft)}
+  .fb-btn{white-space:nowrap}
+  @media(max-width:640px){.fb-card{grid-template-columns:1fr;text-align:center;justify-items:center}}
 </style>
 </head>
 <body>
@@ -364,11 +369,16 @@
       </article>
     </div>
 
-    <div class="container stack fb-wrap" id="fb-slot" hidden>
-      <p class="eyebrow" style="text-align:center">Stay Connected</p>
-      <h2>Follow Along on Facebook</h2>
-      <div class="fb-frame" id="fb-frame"></div>
-      <p class="fb-note">Event updates, photos, and prayer requests are posted on our Facebook page first. <a href="https://www.facebook.com/61590814792627" target="_blank" rel="noopener">Visit the page</a></p>
+    <div class="container stack">
+      <div class="fb-card">
+        <img class="atf-logo-img fb-logo" src="" alt="">
+        <div class="fb-text">
+          <p class="eyebrow">Stay Connected</p>
+          <h3>Follow Along on Facebook</h3>
+          <p>Event updates, photos, and prayer requests are posted on our Facebook page first.</p>
+        </div>
+        <a class="btn btn-primary fb-btn" href="https://www.facebook.com/61590814792627" target="_blank" rel="noopener"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg> Follow Us</a>
+      </div>
     </div>
 
     <div class="container stack shorts-wrap" id="shorts-slot" hidden>
@@ -703,24 +713,6 @@
       shorts = d.shorts || []; renderShorts();
       if (location.hash === "#shorts" && shorts.length) openShorts(0);
     }).catch(function(){});
-  })();
-</script>
-<script>
-  // Facebook page card (Facebook's Page Plugin, header only). The post timeline is left off because
-  // Facebook shows it blank for this page type. Set FB_PAGE to the page's full address,
-  // e.g. https://www.facebook.com/AllThingsFoundation. It only works for a public Facebook Page,
-  // not a personal profile or a group. Empty = the section stays hidden.
-  (function(){
-    var FB_PAGE = "https://www.facebook.com/61590814792627";
-    if (!FB_PAGE) return;
-    var slot = document.getElementById("fb-slot"), frame = document.getElementById("fb-frame");
-    function load(){
-      var w = Math.min(500, Math.max(280, frame.clientWidth || 500));
-      frame.innerHTML = '<iframe title="All Things Foundation on Facebook" loading="lazy" scrolling="no" allow="encrypted-media" ' +
-        'src="https://www.facebook.com/plugins/page.php?href=' + encodeURIComponent(FB_PAGE) +
-        '&tabs=&width=' + w + '&height=220&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"></iframe>';
-    }
-    slot.hidden = false; load();
   })();
 </script>
 </body>
