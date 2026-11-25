@@ -60,6 +60,9 @@ export async function onRequestGet({ env }) {
         start: f["Start Time"] || "", end: f["End Time"] || "", venue: f["Venue"] || "", address: f["Address"] || "",
         details: String(f["Details"] || "").split("\n").map(l => l.split(/:\s*/)).filter(p => p.length > 1 && p[0].trim())
           .map(([k, ...v]) => [k.trim(), v.join(": ").trim()]),
+        program: f["Program"] || "",
+        lyrics: f["Lyrics"] || "",
+        programLink: f["Program Link"] || "",
         button: f["Button"] || "No button", buttonText: f["Button Text"] || "", buttonLink: f["Button Link"] || "",
         logo: f["Logo Key"] || "", accent: f["Accent"] || "Red", featured: !!f["Featured"],
         media: (byEvent[e.id] || []).sort((a, b) => a.created.localeCompare(b.created)),

@@ -213,6 +213,29 @@
   .event-card.accent-green .event-top{border-top:4px solid #2f6f3e}
   .event-card.accent-black .event-top{border-top:4px solid #1A1513}
   .event-cta{text-align:center;margin-top:.5rem}
+  .program{border:1px solid var(--rule);margin-bottom:1.5rem;background:var(--white)}
+  .program summary{cursor:pointer;list-style:none;padding:.8rem 1rem;font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);position:relative}
+  .program summary::-webkit-details-marker{display:none}
+  .program summary::after{content:"+";position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:1.3rem}
+  .program[open]>summary::after{content:"\2212"}
+  .program .song>summary::after{content:"+"}
+  .program .song[open]>summary::after{content:"\2212"}
+  .program ol{list-style:none;padding:0 1rem .5rem;border-top:1px solid var(--rule)}
+  .program li.pg{display:grid;grid-template-columns:7.5rem 1fr;gap:.75rem;padding:.7rem 0;border-top:1px solid var(--rule)}
+  .program li.pg:first-child{border-top:0}
+  @media(max-width:520px){.program li.pg{grid-template-columns:1fr;gap:.1rem}}
+  .program .song{border-top:1px solid var(--rule);margin:0 1rem}
+  .program .song summary{padding:.7rem 2rem .7rem 0;font-size:15px;letter-spacing:.02em;text-transform:none;color:var(--ink)}
+  .program .song summary small{display:block;font-family:var(--body);font-weight:400;font-size:13px;color:var(--ink-soft)}
+  .program .song summary::after{right:0}
+  .program .lyr{padding:0 0 .8rem}
+  .program .lyr p{margin:.7rem 0 0;line-height:1.55}
+  .program-link{display:block;padding:.8rem 1rem;border-top:1px solid var(--rule);font-weight:600}
+  .pg-time{font-family:var(--cond);font-weight:600;color:var(--red);font-size:.95rem}
+  .pg-title{font-family:var(--cond);font-weight:600;font-size:1.02rem}
+  .pg-note{color:var(--ink-soft);font-size:.95rem}
+  .pg-sub{margin:.3rem 0 0 1.1rem;font-size:.95rem}
+  .pg-sub li{list-style:disc;padding:.05rem 0}
   .strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:1rem}
   .strip a,.gal-grid a{display:block;position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:3px;background:#EDE5E3}
   .strip img,.gal-grid img,.gal-grid video{width:100%;height:100%;object-fit:cover;display:block}
@@ -624,6 +647,40 @@
       return '<a class="btn btn-primary" href="' + esc(e.buttonLink) + '" target="_blank" rel="noopener">' + esc(t || (e.button === "Donate" ? "Donate" : e.button === "Learn more" ? "Learn More" : "Register")) + '</a>';
     }
 
+    // Program: one line per item as "Time | Title | Note"; lines starting with "- " list under the item above.
+    function program(e, past){
+      if (past || !e.program) return "";
+      var items = [];
+      String(e.program).split("\n").forEach(function(l){
+        l = l.trim(); if (!l) return;
+        if (/^- /.test(l) && items.length) { items[items.length - 1].sub.push(l.slice(2)); return; }
+        var p = l.split(/\s*\|\s*/);
+        items.push({ time: p.length > 1 ? p[0] : "", title: p.length > 1 ? p[1] : p[0], note: p.slice(2).join(" | "), sub: [] });
+      });
+      if (!items.length) return "";
+      return '<details class="program"><summary>Order of Service</summary><ol>' + items.map(function(i){
+        return '<li class="pg"><div class="pg-time">' + esc(i.time) + '</div><div><div class="pg-title">' + esc(i.title) + '</div>' +
+          (i.note ? '<div class="pg-note">' + esc(i.note) + '</div>' : '') +
+          (i.sub.length ? '<ul class="pg-sub">' + i.sub.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' : '') + '</div></li>';
+      }).join("") + '</ol>' + (e.programLink && /^https:\/\//.test(e.programLink) ? '<a class="program-link" href="' + esc(e.programLink) + '" target="_blank" rel="noopener">Open the full program page</a>' : '') + '</details>' + lyrics(e);
+    }
+
+    // Lyrics: "## Title | Artist | Note" starts a song; blank lines split verses.
+    function lyrics(e){
+      if (!e.lyrics) return "";
+      var songs = [];
+      String(e.lyrics).split("\n").forEach(function(l){
+        if (/^## /.test(l)) { var p = l.slice(3).split(/\s*\|\s*/); songs.push({ title: p[0], by: p.slice(1).filter(Boolean).join(" \u00b7 "), lines: [] }); return; }
+        if (songs.length) songs[songs.length - 1].lines.push(l);
+      });
+      if (!songs.length) return "";
+      return '<details class="program"><summary>Song Lyrics</summary>' + songs.map(function(g){
+        var verses = g.lines.join("\n").trim().split(/\n\s*\n/).filter(function(v){ return v.trim(); });
+        return '<details class="song"><summary>' + esc(g.title) + (g.by ? '<small>' + esc(g.by) + '</small>' : '') + '</summary><div class="lyr">' +
+          verses.map(function(v){ return '<p>' + v.trim().split("\n").map(esc).join("<br>") + '</p>'; }).join("") + '</div></details>';
+      }).join("") + '</details>';
+    }
+
     function card(e, past){
       var facts = [["Date", esc(dateRange(e))], ["Time", timeRange(e)]];
       e.details.slice(0, past ? 1 : 2).forEach(function(d){ facts.push([esc(d[0]), esc(d[1])]); });
@@ -643,7 +700,7 @@
       return '<article class="card event-card accent-' + esc(e.accent.toLowerCase()) + '"><div class="event-top">' +
         (img ? '<img class="logo-xs" src="' + esc(img) + '" alt="">' : '') +
         '<div class="event-titles">' + (e.label ? '<p class="event-eyebrow">' + esc(e.label) + '</p>' : '') + '<h3>' + esc(e.name) + '</h3></div></div>' +
-        '<div class="event-body"><p>' + esc(past ? (e.recap || e.description) : e.description) + '</p><div class="facts">' + cells + '</div>' +
+        '<div class="event-body"><p>' + esc(past ? (e.recap || e.description) : e.description) + '</p><div class="facts">' + cells + '</div>' + program(e, past) +
         (button(e, past) ? '<div class="event-cta">' + button(e, past) + '</div>' : '') + strip + '</div></article>';
     }
 
