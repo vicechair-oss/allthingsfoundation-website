@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<title>Celebration of Life &middot; Xavier Taylor</title>
+<link rel="icon" href="/images/atf-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --red:#A50D0F;--red-dark:#7C0A0B;--red-tint:rgba(165,13,15,.07);--red-line:rgba(165,13,15,.30);
+    --paper:#FCFAF9;--white:#FFFFFF;--ink:#1A1513;--ink-soft:#6E6663;--rule:#E6DBD9;
+    --slab:'Alfa Slab One','Rockwell',Georgia,serif;
+    --cond:'Oswald','Arial Narrow',sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  a{color:var(--red)}
+  :focus-visible{outline:3px solid var(--red);outline-offset:2px}
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px}
+  header{text-align:center;padding:2rem 0 1.5rem;border-bottom:1px solid var(--rule)}
+  header img{height:96px;width:auto;display:block;margin:0 auto 1rem}
+  .eyebrow{font-family:var(--cond);font-weight:500;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  h1{font-family:var(--slab);font-weight:400;color:var(--red);text-transform:uppercase;line-height:1.1;font-size:clamp(1.7rem,7vw,2.3rem);margin:.4rem 0 .5rem}
+  .date{font-family:var(--cond);font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase}
+  nav.jump{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+  nav.jump ul{list-style:none;display:flex;justify-content:center}
+  nav.jump a{display:block;padding:.75rem 1rem;font-family:var(--cond);font-weight:500;font-size:15px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+  nav.jump a:hover{color:var(--red)}
+  section{padding:2rem 0 1rem;scroll-margin-top:3rem}
+  h2{font-family:var(--slab);font-weight:400;color:var(--red);text-transform:uppercase;font-size:1.45rem;text-align:center;margin-bottom:1.25rem}
+  ol.schedule{list-style:none}
+  .item{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:1rem 0;border-top:1px solid var(--rule)}
+  .item:first-child{border-top:0}
+  .time{font-family:var(--cond);font-weight:600;font-size:1rem;color:var(--red);line-height:1.3}
+  .time .to{display:block;font-weight:400;color:var(--ink-soft)}
+  .what h3{font-family:var(--cond);font-weight:600;font-size:1.15rem;letter-spacing:.02em;line-height:1.3;margin-bottom:.15rem}
+  .detail{color:var(--ink)}
+  ul.songs{list-style:none;margin-top:.4rem}
+  ul.songs li{padding:.2rem 0}
+  .song-link{font-weight:600}
+  .by{color:var(--ink-soft);font-size:.92em}
+  ol.speakers{margin:.5rem 0 0 1.4rem}
+  ol.speakers li{padding:.12rem 0}
+  .hint{text-align:center;color:var(--ink-soft);font-size:.95rem;margin:-.6rem 0 1rem}
+  details.song{background:var(--white);border:1.5px solid var(--red-line);border-radius:4px;margin-bottom:.75rem;scroll-margin-top:3.5rem}
+  details.song summary{list-style:none;cursor:pointer;padding:.9rem 2.6rem .9rem 1rem;position:relative}
+  details.song summary::-webkit-details-marker{display:none}
+  details.song summary::after{content:"+";position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-family:var(--cond);font-size:1.6rem;color:var(--red)}
+  details.song[open] summary::after{content:"\2212"}
+  .song-title{display:block;font-family:var(--cond);font-weight:600;font-size:1.2rem}
+  .song-artist{display:block;color:var(--ink-soft);font-size:.95rem}
+  .song-note{display:block;color:var(--red);font-size:.88rem;margin-top:.15rem}
+  .lyrics{padding:.2rem 1rem 1rem;border-top:1px solid var(--rule)}
+  .lyrics p{margin-top:1rem;font-size:1.08rem;line-height:1.55}
+  .give{text-align:center;padding-bottom:2rem}
+  .give p{color:var(--ink-soft);max-width:30rem;margin:0 auto 1.1rem}
+  .btn{display:inline-block;background:var(--red);color:var(--white);text-decoration:none;font-family:var(--cond);font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.8rem;border-radius:4px}
+  .btn:hover{background:var(--red-dark)}
+  footer{text-align:center;color:var(--ink-soft);font-size:.85rem;padding:1.5rem 0 2.5rem;border-top:1px solid var(--rule)}
+  @media print{nav.jump{display:none} details.song .lyrics{display:block}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <img src="/images/atf-logo.webp" alt="All Things Foundation">
+  <div class="eyebrow">Celebrating the life of</div>
+  <h1>Xavier Taylor</h1>
+  <div class="date">Saturday, November 28</div>
+</header>
+<nav class="jump" aria-label="Sections"><ul>
+  <li><a href="#service">Service</a></li>
+  <li><a href="#lyrics">Lyrics</a></li>
+  <li><a href="#give">Give</a></li>
+</ul></nav>
+<main class="wrap">
+  <section id="service">
+    <h2>Order of Service</h2>
+    <ol class="schedule">
+      <li class="item"><div class="time">12:00 PM<span class="to">&ndash; 1:00 PM</span></div><div class="what"><h3>Guest Arrival &amp; Reflection</h3><div class="detail">Guests are welcomed as worship music plays.</div></div></li><li class="item"><div class="time">1:00 PM</div><div class="what"><h3>Welcome</h3><div class="detail">Opening welcome and words of gratitude to family and friends.</div></div></li><li class="item"><div class="time">1:02 PM</div><div class="what"><h3>Opening Prayer</h3><div class="detail">Reagan Graf</div></div></li><li class="item"><div class="time">1:05 PM<span class="to">&ndash; 1:15 PM</span></div><div class="what"><h3>Worship</h3><div class="detail">Led by Kait Faraghan<ul class="songs"><li><a href="#miracles" class="song-link">Miracles</a> <span class="by">Natalie Grant</span></li><li><a href="#hymn-of-heaven" class="song-link">Hymn of Heaven</a> <span class="by">Phil Wickham</span></li><li><a href="#all-hail-king-jesus" class="song-link">All Hail King Jesus</a> <span class="by">Bethel</span></li><li><a href="#king-of-kings" class="song-link">King of Kings</a> <span class="by">Hillsong Worship</span></li></ul></div></div></li><li class="item"><div class="time">1:18 PM<span class="to">&ndash; 1:30 PM</span></div><div class="what"><h3>Message</h3><div class="detail">Pastor Tim Concannon, New Beginnings Church</div></div></li><li class="item"><div class="time">1:30 PM<span class="to">&ndash; 2:00 PM</span></div><div class="what"><h3>Family &amp; Friends Remembrances</h3><div class="detail">Memories, stories, and reflections shared by:<ol class="speakers"><li>Titi Von &amp; Uncle Chris</li><li>Daniel Juckett</li><li>Bill Galloway</li><li>Billy Galloway</li><li>Ed Omelia</li><li>Ty, Joey &amp; Jude, Royals (speaking together)</li><li>Rachel Lea</li><li>Cade Graf</li><li>Danny Contreras</li><li>Nehemiah Diaz</li><li>Lisa Duvall</li><li>Sharon Restrepo</li></ol></div></div></li><li class="item"><div class="time">2:00 PM<span class="to">&ndash; 2:15 PM</span></div><div class="what"><h3>Message</h3><div class="detail">Pastor Dan McCarthy, Calvary Church Delran</div></div></li><li class="item"><div class="time">2:15 PM<span class="to">&ndash; 2:18 PM</span></div><div class="what"><h3>Invitation to Salvation</h3><div class="detail">Josh Duvall</div></div></li><li class="item"><div class="time">2:18 PM<span class="to">&ndash; 2:30 PM</span></div><div class="what"><h3>Taylor&#8217;s Remembrance</h3><div class="detail">A special time of remembrance shared by Matthew, Mariah and Nathaniel Taylor.</div></div></li><li class="item"><div class="time">2:30 PM<span class="to">&ndash; 2:40 PM</span></div><div class="what"><h3>Baseball Tribute &amp; Final Goodbye</h3><div class="detail">A special tribute honoring his love for baseball, his teammates, and the game. A final on-field farewell.</div></div></li><li class="item"><div class="time">2:40 PM<span class="to">&ndash; 3:00 PM</span></div><div class="what"><h3>Closing Worship</h3><div class="detail">A final time of worship, reflection, and celebration of life.<ul class="songs"><li>Closing song: <a href="#raise-a-hallelujah" class="song-link">Raise a Hallelujah</a> <span class="by">Bethel Music</span></li></ul></div></div></li>
+    </ol>
+  </section>
+  <section id="lyrics">
+    <h2>Song Lyrics</h2>
+    <p class="hint">Tap a song to open the words.</p>
+    <details class="song" id="miracles"><summary><span class="song-title">Miracles</span><span class="song-artist">Natalie Grant</span></summary><div class="lyrics"><p>The one who made the blind to see<br>Is moving here in front of me, moving here in front of me<br>The one who made the deaf to hear<br>Is silencing my every fear, silencing my every fear</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>The one who does impossible<br>It&#x27;s reaching out to make me whole<br>Reaching out to make me whole<br>The one who put death in its place<br>His life is flowing through my veins<br>His life is flowing through my veins</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>The God who was and is to come<br>The power of the Risen one<br>The God who brings the dead to life<br>You&#x27;re the God of miracles<br>You&#x27;re the God of miracles</p><p>The God who was and is to come<br>The power of the Risen one<br>The God who brings the dead to life<br>You&#x27;re the God of miracles<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p><p>I believe in You, I believe in You<br>You&#x27;re the God of miracles</p></div></details><details class="song" id="hymn-of-heaven"><summary><span class="song-title">Hymn of Heaven</span><span class="song-artist">Phil Wickham</span></summary><div class="lyrics"><p>How I long to breathe the air of Heaven<br>Where pain is gone and mercy fills the streets<br>To look upon the One who bled to save me<br>And walk with Him for all eternity</p><p>There will be a day when all will bow before Him<br>There will be a day when death will be no more<br>Standing face to face with He who died and rose again<br>Holy, holy is the Lord</p><p>And every prayer we prayed in desperation<br>The songs of faith we sang through doubt and fear<br>In the end, we&#x27;ll see that it was worth it<br>When He returns to wipe away our tears</p><p>Oh, there will be a day when all will bow before Him<br>There will be a day when death will be no more<br>Standing face to face with He who died and rose again<br>Holy, holy is the Lord</p><p>And on that day, we join the resurrection<br>And stand beside the heroes of the faith<br>With one voice, a thousand generations<br>Sing, &quot;Worthy is the Lamb who was slain&quot;<br>And on that day, we join the resurrection<br>And stand beside the heroes of the faith<br>With one voice, a thousand generations<br>Sing, &quot;Worthy is the Lamb who was slain&quot;<br>&quot;Forever He shall reign&quot;</p><p>So let it be today we shout the hymn of Heaven<br>With angels and the saints, we raise a mighty roar<br>Glory to our God who gave us life beyond the grave<br>Holy, holy is the Lord</p><p>So let it be today we shout the hymn of Heaven<br>With angels and the saints, we raise a mighty roar<br>Glory to our God who gave us life beyond the grave<br>Holy, holy is the Lord</p><p>Holy, holy is the Lord<br>Holy, holy is the Lord</p></div></details><details class="song" id="all-hail-king-jesus"><summary><span class="song-title">All Hail King Jesus</span><span class="song-artist">Bethel</span></summary><div class="lyrics"><p>There was a moment when the lights went out<br>When death had claimed its victory<br>The King of Love had given up His life<br>The darkest day in history</p><p>There on a cross they made for sinners<br>For every curse His blood atoned<br>One final breath and it was finished<br>But not the end we could have known</p><p>For the earth began to shake<br>And the veil was torn<br>What sacrifice was made<br>As the heavens roared</p><p>All hail King Jesus<br>All hail the Lord of Heaven and earth<br>All hail King Jesus<br>All hail the Savior of the world</p><p>There was a moment when the sky lit up<br>A flash of light breaking through<br>When all was lost He crossed eternity<br>The King of life was on the move</p><p>For in a dark, cold tomb<br>Where our Lord was laid<br>One miraculous breath<br>And we&#x27;re forever changed</p><p>All hail King Jesus<br>All hail the Lord of Heaven and earth<br>All hail King Jesus<br>All hail the Savior of the world</p><p>All hail King Jesus<br>All hail the Lord of Heaven and earth<br>All hail King Jesus<br>All hail the Savior of the world</p><p>So let every knee, come bow before the King of Kings<br>Let every tongue, confess that He is Lord<br>Lift up your shout, let us join with all of Heaven<br>Singing Holy, Singing Holy</p><p>We cry out Holy, we&#x27;re singing Holy<br>All hail King Jesus<br>All hail the Lord of Heaven and earth<br>All hail King Jesus<br>All hail the Savior of the world</p></div></details><details class="song" id="king-of-kings"><summary><span class="song-title">King of Kings</span><span class="song-artist">Hillsong Worship</span><span class="song-note">Chorus twice, Verse 3, Verse 4, Chorus twice</span></summary><div class="lyrics"><p>Praise the Father, praise the Son<br>Praise the Spirit, three in one<br>God of glory, Majesty<br>Praise forever to the King of Kings</p><p>And the morning that You rose<br>All of heaven held its breath<br>Till that stone was moved for good<br>For the Lamb had conquered death<br>And the dead rose from their tombs<br>And the angels stood in awe<br>For the souls of all who&#x27;d come<br>To the Father are restored</p><p>And the Church of Christ was born<br>Then the Spirit lit the flame<br>Now this gospel truth of old<br>Shall not kneel, shall not faint<br>By His blood and in His name<br>In His freedom I am free<br>For the love of Jesus Christ<br>Who has resurrected me</p><p>Praise the Father, praise the Son<br>Praise the Spirit, three in one<br>God of glory, Majesty<br>Praise forever to the King of Kings</p></div></details><details class="song" id="raise-a-hallelujah"><summary><span class="song-title">Raise a Hallelujah</span><span class="song-artist">Bethel Music</span><span class="song-note">Closing song</span></summary><div class="lyrics"><p>I raise a hallelujah, in the presence of my enemies<br>I raise a hallelujah, louder than the unbelief<br>I raise a hallelujah, my weapon is a melody<br>I raise a hallelujah, Heaven comes to fight for me</p><p>I&#x27;m gonna sing, in the middle of the storm<br>Louder and louder, you&#x27;re gonna hear my praises roar<br>Up from the ashes, hope will arise<br>Death is defeated, the King is alive</p><p>I raise a hallelujah, with everything inside of me<br>I raise a hallelujah, I will watch the darkness flee<br>I raise a hallelujah, in the middle of the mystery<br>I raise a hallelujah, fear you lost your hold on me</p><p>Sing a little louder<br>In the presence of my enemies<br>Sing a little louder<br>Louder than the unbelief<br>Sing a little louder<br>My weapon is a melody<br>Sing a little louder<br>Heaven comes to fight for me</p><p>I raise a hallelujah</p></div></details>
+  </section>
+  <section id="give" class="give">
+    <h2>Giving</h2>
+    <a class="btn" href="https://www.zeffy.com/en-US/donation-form/all-things-foundation" target="_blank" rel="noopener noreferrer">Give</a>
+  </section>
+</main>
+<footer>All Things Foundation &middot; Maple Shade, NJ &middot; Philippians 4:13</footer>
+</body>
+</html>
